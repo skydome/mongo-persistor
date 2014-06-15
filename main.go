@@ -12,10 +12,10 @@ import (
 )
 
 type Sensor struct {
-	holder []byte
-	id     byte
-	prefix byte
-	code   byte
+	Holder []byte
+	ID     byte
+	Prefix byte
+	Code   byte
 }
 
 var session = new(mgo.Session)
