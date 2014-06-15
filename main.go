@@ -13,6 +13,7 @@ import (
 
 type Sensor struct {
 	Holder []byte
+	Time   time.Time
 	ID     byte
 	Prefix byte
 	Code   byte
@@ -43,7 +44,7 @@ var f MQTT.MessageHandler = func(client *MQTT.MqttClient, msg MQTT.Message) {
 	fmt.Println("Size of array : ", len(msg.Payload()))
 	fmt.Println("MSG: ", msg.Payload())
 
-	sensor := Sensor{msg.Payload()[:6], msg.Payload()[6], msg.Payload()[7], msg.Payload()[8]}
+	sensor := Sensor{msg.Payload()[:6], time.Now(), msg.Payload()[6], msg.Payload()[7], msg.Payload()[8]}
 	fmt.Println("sensor : ", sensor)
 	collection.Insert(sensor)
 }
