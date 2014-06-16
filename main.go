@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
 	"os"
 	"runtime"
@@ -12,7 +13,7 @@ import (
 )
 
 type Sensor struct {
-	Holder []byte
+	Holder string
 	Time   time.Time
 	ID     byte
 	Prefix byte
@@ -44,13 +45,13 @@ var f MQTT.MessageHandler = func(client *MQTT.MqttClient, msg MQTT.Message) {
 	fmt.Println("Size of array : ", len(msg.Payload()))
 	fmt.Println("MSG: ", msg.Payload())
 
-	sensor := Sensor{msg.Payload()[:6], time.Now(), msg.Payload()[6], msg.Payload()[7], msg.Payload()[8]}
+	sensor := Sensor{hex.EncodeToString(msg.Payload()[:6]), time.Now(), msg.Payload()[6], msg.Payload()[7], msg.Payload()[8]}
 	fmt.Println("sensor : ", sensor)
 	collection.Insert(sensor)
 }
 
 func main() {
-	opts := MQTT.NewClientOptions().SetBroker("tcp://107.170.134.171:1883").SetClientId("trivial")
+	opts := MQTT.NewClientOptions().SetBroker("tcp://api.skydome.io:1883").SetClientId("trial")
 	opts.SetTraceLevel(MQTT.Off)
 	opts.SetDefaultPublishHandler(f)
 
