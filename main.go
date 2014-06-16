@@ -61,7 +61,7 @@ func main() {
 		panic(err)
 	}
 
-	filter, _ := MQTT.NewTopicFilter("skydome", 0)
+	filter, _ := MQTT.NewTopicFilter("skydome/#", 0)
 	if receipt, err := c.StartSubscription(nil, filter); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
